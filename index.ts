@@ -37,7 +37,7 @@ translator.registerHandler(
  * @param {boolean} validate If the literal value should be validated against the datatype.
  * @return {any} A JavaScript primitive value.
  */
-export function fromRdf(literal: RDF.Literal, validate?: boolean): any { // TODO: only test functions in this file
+export function fromRdf(literal: RDF.Literal, validate?: boolean): any {
   return translator.fromRdf(literal, validate);
 }
 
