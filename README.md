@@ -152,6 +152,59 @@ toRdf(true); // Returns literal('true',
              //           namedNode('http://www.w3.org/2001/XMLSchema#boolean')
 ```
 
+## Conversion range
+
+The following table shows how RDF datatypes and JavaScript primitives are mapped:
+
+| JavaScript primitive | RDF Datatype           |
+| -------------------- | ---------------------- |
+| `string`             | `xsd:string`           |
+| `string`             | `xsd:normalizedString` |
+| `string`             | `xsd:anyURI` |
+| `string`             | `xsd:base64Binary` |
+| `string`             | `xsd:language` |
+| `string`             | `xsd:Name` |
+| `string`             | `xsd:NCName` |
+| `string`             | `xsd:NMTOKEN` |
+| `string`             | `xsd:token` |
+| `string`             | `xsd:hexBinary` |
+| `string`             | `rdf:langString` |
+| `boolean`            | `xsd:boolean` |
+| `number`             | `xsd:integer` |
+| `number`             | `xsd:long` |
+| `number`             | `xsd:int` |
+| `number`             | `xsd:byte` |
+| `number`             | `xsd:short` |
+| `number`             | `xsd:negativeInteger` |
+| `number`             | `xsd:nonNegativeInteger` |
+| `number`             | `xsd:nonPositiveInteger` |
+| `number`             | `xsd:positiveInteger` |
+| `number`             | `xsd:unsignedByte` |
+| `number`             | `xsd:unsignedInt` |
+| `number`             | `xsd:unsignedLong` |
+| `number`             | `xsd:unsignedShort` |
+| `number`             | `xsd:double` |
+| `number`             | `xsd:decimal` |
+| `number`             | `xsd:float` |
+
+Used prefixes:
+
+* `xsd: <http://www.w3.org/2001/XMLSchema#>`
+* `rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>`
+
+The following XSD datatypes that are standardized in RDF are not supported,
+and will therefore be interpreted as plain strings:
+
+* `xsd:dateTime`
+* `xsd:date`
+* `xsd:time`
+* `xsd:gDay`
+* `xsd:gMonthDay`
+* `xsd:gYear`
+* `xsd:gYearMonth`
+
+Any other unknown datatypes will also be interpreted as plain strings.
+
 ## License
 This software is written by [Ruben Taelman](http://rubensworks.net/).
 
