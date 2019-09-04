@@ -11,7 +11,7 @@ This library accepts [RDFJS](http://rdf.js.org/)-compliant terms.
 ## Installation
 
 ```bash
-$ yarn install rdf-literal
+$ yarn add rdf-literal
 ```
 
 This package also works out-of-the-box in browsers via tools such as [webpack](https://webpack.js.org/) and [browserify](http://browserify.org/).
