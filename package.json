@@ -45,7 +45,7 @@
     "typescript": "^3.0.1"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "jest-rdf",
+    "setupFilesAfterEnv": [ "jest-rdf" ],
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
