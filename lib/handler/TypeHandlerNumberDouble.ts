@@ -1,5 +1,5 @@
 import * as RDF from "rdf-js";
-import {ITypeHandler} from "../ITypeHandler";
+import {IToRdfOptions, ITypeHandler} from "../ITypeHandler";
 import {Translator} from "../Translator";
 
 /**
@@ -24,18 +24,18 @@ export class TypeHandlerNumberDouble implements ITypeHandler {
     return parsed;
   }
 
-  public toRdf(value: any, dataFactory: RDF.DataFactory): RDF.Literal {
+  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
+    datatype = datatype || dataFactory.namedNode(TypeHandlerNumberDouble.TYPES[0]);
     if (isNaN(value)) {
-      return dataFactory.literal('NaN', dataFactory.namedNode(TypeHandlerNumberDouble.TYPES[0]));
+      return dataFactory.literal('NaN', datatype);
     }
     if (!isFinite(value)) {
-      return dataFactory.literal(value > 0 ? 'INF' : '-INF', dataFactory.namedNode(TypeHandlerNumberDouble.TYPES[0]));
+      return dataFactory.literal(value > 0 ? 'INF' : '-INF', datatype);
     }
     if (value % 1 === 0) {
       return null;
     }
-    return dataFactory.literal(value.toExponential(15).replace(/(\d)0*e\+?/, '$1E'),
-      dataFactory.namedNode(TypeHandlerNumberDouble.TYPES[0]));
+    return dataFactory.literal(value.toExponential(15).replace(/(\d)0*e\+?/, '$1E'), datatype);
   }
 
 }

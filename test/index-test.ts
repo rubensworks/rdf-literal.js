@@ -419,6 +419,11 @@ describe('toRdf', () => {
   describe('for strings', () => {
 
     it('should handle strings with custom data factory', () => {
+      return expect(toRdf('abc', { dataFactory: DataFactory }))
+        .toEqual(literal('abc'));
+    });
+
+    it('should handle strings with custom data factory in the old format', () => {
       return expect(toRdf('abc', DataFactory))
         .toEqual(literal('abc'));
     });
@@ -426,6 +431,11 @@ describe('toRdf', () => {
     it('should handle strings', () => {
       return expect(toRdf('abc'))
         .toEqual(literal('abc'));
+    });
+
+    it('should handle strings with a custom datatype', () => {
+      return expect(toRdf('abc', { datatype: namedNode('http://ex.org/d') }))
+        .toEqual(literal('abc', namedNode('http://ex.org/d')));
     });
 
   });
@@ -442,6 +452,11 @@ describe('toRdf', () => {
         .toEqual(literal('false', namedNode('http://www.w3.org/2001/XMLSchema#boolean')));
     });
 
+    it('should handle a true boolean with a custom datatype', () => {
+      return expect(toRdf(true, { datatype: namedNode('http://ex.org/d') }))
+        .toEqual(literal('true', namedNode('http://ex.org/d')));
+    });
+
   });
 
   describe('for integers', () => {
@@ -449,6 +464,11 @@ describe('toRdf', () => {
     it('should handle an integer', () => {
       return expect(toRdf(10))
         .toEqual(literal('10', namedNode('http://www.w3.org/2001/XMLSchema#integer')));
+    });
+
+    it('should handle an integer with a custom datatype', () => {
+      return expect(toRdf(10, { datatype: namedNode('http://ex.org/d') }))
+        .toEqual(literal('10', namedNode('http://ex.org/d')));
     });
 
     it('should handle a large integer', () => {
@@ -480,6 +500,11 @@ describe('toRdf', () => {
         .toEqual(literal('1.05E1', namedNode('http://www.w3.org/2001/XMLSchema#double')));
     });
 
+    it('should handle a double with a custom datatype', () => {
+      return expect(toRdf(10.5, { datatype: namedNode('http://ex.org/d') }))
+        .toEqual(literal('1.05E1', namedNode('http://ex.org/d')));
+    });
+
     it('should handle a large double', () => {
       return expect(toRdf(12345678000.5))
         .toEqual(literal('1.23456780005E10', namedNode('http://www.w3.org/2001/XMLSchema#double')));
@@ -508,9 +533,19 @@ describe('toRdf', () => {
         .toEqual(literal('2012-03-17T23:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
     });
 
+    it('should handle a date object with dateTime with a custom datatype', () => {
+      return expect(toRdf(new Date('2012-03-17T23:00:00.000Z'), { datatype: namedNode('http://ex.org/d') }))
+        .toEqual(literal('2012-03-17T23:00:00.000Z', namedNode('http://ex.org/d')));
+    });
+
     it('should handle a date object with date', () => {
       return expect(toRdf(new Date('2012-03-17')))
         .toEqual(literal('2012-03-17T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+
+    it('should handle a date object with forced date', () => {
+      return expect(toRdf(new Date('2012-03-17'), { datatype: namedNode('http://www.w3.org/2001/XMLSchema#date') }))
+        .toEqual(literal('2012-03-17', namedNode('http://www.w3.org/2001/XMLSchema#date')));
     });
 
     it('should handle a date object with day', () => {
@@ -518,9 +553,24 @@ describe('toRdf', () => {
         .toEqual(literal('1900-01-17T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
     });
 
+    it('should handle a date object with forced day', () => {
+      return expect(toRdf(new Date(0, 0, 17), { datatype: namedNode('http://www.w3.org/2001/XMLSchema#gDay') }))
+        .toEqual(literal('17', namedNode('http://www.w3.org/2001/XMLSchema#gDay')));
+    });
+
+    it('should handle a date number with forced day', () => {
+      return expect(toRdf(17, { datatype: namedNode('http://www.w3.org/2001/XMLSchema#gDay') }))
+        .toEqual(literal('17', namedNode('http://www.w3.org/2001/XMLSchema#gDay')));
+    });
+
     it('should handle a date object with month day', () => {
       return expect(toRdf(new Date(0, 2, 17)))
         .toEqual(literal('1900-03-17T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+
+    it('should handle a date object with forced month day', () => {
+      return expect(toRdf(new Date(0, 2, 17), { datatype: namedNode('http://www.w3.org/2001/XMLSchema#gMonthDay') }))
+        .toEqual(literal('3-17', namedNode('http://www.w3.org/2001/XMLSchema#gMonthDay')));
     });
 
     it('should handle a date object with year', () => {
@@ -528,9 +578,25 @@ describe('toRdf', () => {
         .toEqual(literal('2012-01-01T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
     });
 
+    it('should handle a date object with forced year', () => {
+      return expect(toRdf(new Date('2012-01-01'), { datatype: namedNode('http://www.w3.org/2001/XMLSchema#gYear') }))
+        .toEqual(literal('2012', namedNode('http://www.w3.org/2001/XMLSchema#gYear')));
+    });
+
+    it('should handle a date number with forced year', () => {
+      return expect(toRdf(2012, { datatype: namedNode('http://www.w3.org/2001/XMLSchema#gYear') }))
+        .toEqual(literal('2012', namedNode('http://www.w3.org/2001/XMLSchema#gYear')));
+    });
+
     it('should handle a date object with year month', () => {
       return expect(toRdf(new Date('2012-03-01')))
         .toEqual(literal('2012-03-01T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+
+    it('should handle a date object with forced year month', () => {
+      return expect(toRdf(new Date('2012-03-01'),
+        { datatype: namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth') }))
+        .toEqual(literal('2012-3', namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth')));
     });
   });
 

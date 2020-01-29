@@ -132,9 +132,14 @@ fromRdf(literal('abc',
 
 ### Converting JavaScript _to_ RDF
 
-`toRdf(value, dataFactory?)` converts a JavaScript value to an RDF literal term.
+`toRdf(value, options?)` converts a JavaScript value to an RDF literal term.
 
-Optionally, a custom [DataFactory](http://rdf.js.org/data-model-spec/#datafactory-interface) can be supplied.
+The optional options object can contain the following optional fields:
+
+| Name          | Description |
+| ------------- | ----------- |
+| `datatype`    | A custom `NamedNode` datatype that can be forced upon the literal value, which may influence the format of literal values. |
+| `dataFactory` | [DataFactory](http://rdf.js.org/data-model-spec/#datafactory-interface) for creating RDF terms. |
 
 #### Converting a string
 
@@ -170,11 +175,23 @@ toRdf(true); // Returns literal('true',
 JS Dates are converted to RDF date times.
 
 ```javascript
-toRdf(new Date('2012-03-17')); // Returns literal('2012-03-17T00:00:00.000Z',
-                               //           namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))
+toRdf(new Date('2012-03-17'));
+// Returns literal('2012-03-17T00:00:00.000Z',
+//           namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))
 
-toRdf(new Date('2012-03-17T23:00:00.000Z')); // Returns literal('2012-03-17T23:00:00.000Z',
-                                             //           namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))
+toRdf(new Date('2012-03-17T23:00:00.000Z'));
+// Returns literal('2012-03-17T23:00:00.000Z',
+//           namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))
+
+toRdf(new Date('2012-03-17'),
+  { datatype: namedNode('http://www.w3.org/2001/XMLSchema#date') });
+// Returns literal('2012-03-17',
+// namedNode('http://www.w3.org/2001/XMLSchema#date'))
+
+toRdf(2012,
+  { datatype: namedNode('http://www.w3.org/2001/XMLSchema#gYear') });
+// Returns literal('2012',
+//           namedNode('http://www.w3.org/2001/XMLSchema#gYear'))
 ```
 
 ## Conversion range

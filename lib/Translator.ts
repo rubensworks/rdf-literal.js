@@ -1,5 +1,5 @@
 import * as RDF from "rdf-js";
-import {ITypeHandler} from "./ITypeHandler";
+import {IToRdfOptions, ITypeHandler} from "./ITypeHandler";
 
 /**
  * Translates between an RDF literal and a JavaScript primitive.
@@ -43,11 +43,11 @@ export class Translator implements ITypeHandler {
     }
   }
 
-  public toRdf(value: any, dataFactory: RDF.DataFactory): RDF.Literal {
+  public toRdf(value: any, options?: IToRdfOptions): RDF.Literal {
     const handlers = this.toRdfHandlers[typeof value];
     if (handlers) {
       for (const handler of handlers) {
-        const ret = handler.toRdf(value, dataFactory);
+        const ret = handler.toRdf(value, options);
         if (ret) {
           return ret;
         }

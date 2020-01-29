@@ -1,5 +1,5 @@
 import * as RDF from "rdf-js";
-import {ITypeHandler} from "../ITypeHandler";
+import {IToRdfOptions, ITypeHandler} from "../ITypeHandler";
 import {Translator} from "../Translator";
 
 /**
@@ -26,8 +26,9 @@ export class TypeHandlerBoolean implements ITypeHandler {
     return false;
   }
 
-  public toRdf(value: any, dataFactory: RDF.DataFactory): RDF.Literal {
-    return dataFactory.literal(value ? 'true' : 'false', dataFactory.namedNode(TypeHandlerBoolean.TYPE));
+  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
+    return dataFactory.literal(value ? 'true' : 'false',
+      datatype || dataFactory.namedNode(TypeHandlerBoolean.TYPE));
   }
 
 }

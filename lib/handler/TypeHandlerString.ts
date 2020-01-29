@@ -1,5 +1,5 @@
 import * as RDF from "rdf-js";
-import {ITypeHandler} from "../ITypeHandler";
+import {IToRdfOptions, ITypeHandler} from "../ITypeHandler";
 
 /**
  * Translates strings.
@@ -27,8 +27,8 @@ export class TypeHandlerString implements ITypeHandler {
     return literal.value;
   }
 
-  public toRdf(value: any, dataFactory: RDF.DataFactory): RDF.Literal {
-    return dataFactory.literal(value);
+  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
+    return dataFactory.literal(value, datatype);
   }
 
 }

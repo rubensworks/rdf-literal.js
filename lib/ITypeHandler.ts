@@ -22,9 +22,20 @@ export interface ITypeHandler {
   /**
    * Convert the given JavaScript primitive to an RDF literal.
    * @param value A JavaScript primitive value.
-   * @param dataFactory The data factory to create terms with.
+   * @param options Options for RDF conversion.
    * @return {Literal} An RDF literal value.
    */
-  toRdf(value: any, dataFactory: RDF.DataFactory): RDF.Literal;
+  toRdf(value: any, options?: IToRdfOptions): RDF.Literal;
 
+}
+
+export interface IToRdfOptions {
+  /**
+   * An optional datatype to enforce.
+   */
+  datatype?: RDF.NamedNode;
+  /**
+   * The data factory to create terms with.
+   */
+  dataFactory?: RDF.DataFactory;
 }

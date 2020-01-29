@@ -1,5 +1,5 @@
 import * as RDF from "rdf-js";
-import {ITypeHandler} from "../ITypeHandler";
+import {IToRdfOptions, ITypeHandler} from "../ITypeHandler";
 import {Translator} from "../Translator";
 
 /**
@@ -44,13 +44,36 @@ export class TypeHandlerDate implements ITypeHandler {
     }
   }
 
-  public toRdf(value: any, dataFactory: RDF.DataFactory): RDF.Literal {
+  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
+    datatype = datatype || dataFactory.namedNode(TypeHandlerDate.TYPES[0]);
+
+    // Assume date values
     if (!(value instanceof Date)) {
       return null;
     }
     const date: Date = <Date> value;
-    return dataFactory.literal(date.toISOString(),
-        dataFactory.namedNode(TypeHandlerDate.TYPES[0]));
+
+    let valueString;
+    switch (datatype.value) {
+    case 'http://www.w3.org/2001/XMLSchema#gDay':
+      valueString = String(date.getUTCDate());
+      break;
+    case 'http://www.w3.org/2001/XMLSchema#gMonthDay':
+      valueString = (date.getUTCMonth() + 1) + '-' + date.getUTCDate();
+      break;
+    case 'http://www.w3.org/2001/XMLSchema#gYear':
+      valueString = String(date.getUTCFullYear());
+      break;
+    case 'http://www.w3.org/2001/XMLSchema#gYearMonth':
+      valueString = date.getUTCFullYear() + '-' + (date.getUTCMonth() + 1);
+      break;
+    case 'http://www.w3.org/2001/XMLSchema#date':
+      valueString = date.toISOString().replace(/T.*$/, '');
+      break;
+    default:
+      valueString = date.toISOString();
+    }
+    return dataFactory.literal(valueString, datatype);
   }
 
 }

@@ -1,5 +1,5 @@
 import * as RDF from "rdf-js";
-import {ITypeHandler} from "../ITypeHandler";
+import {IToRdfOptions, ITypeHandler} from "../ITypeHandler";
 import {Translator} from "../Translator";
 
 /**
@@ -36,11 +36,11 @@ export class TypeHandlerNumberInteger implements ITypeHandler {
     return parsed;
   }
 
-  public toRdf(value: any, dataFactory: RDF.DataFactory): RDF.Literal {
-    return dataFactory.literal(String(value),
-      value <= TypeHandlerNumberInteger.MAX_INT && value >= TypeHandlerNumberInteger.MIN_INT
+  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
+    return dataFactory.literal(String(value), datatype
+      || (value <= TypeHandlerNumberInteger.MAX_INT && value >= TypeHandlerNumberInteger.MIN_INT
         ? dataFactory.namedNode(TypeHandlerNumberInteger.TYPES[0])
-        : dataFactory.namedNode(TypeHandlerNumberInteger.TYPES[1]));
+        : dataFactory.namedNode(TypeHandlerNumberInteger.TYPES[1])));
   }
 
 }

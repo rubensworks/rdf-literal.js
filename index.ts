@@ -7,6 +7,7 @@ import {
   TypeHandlerNumberInteger,
   TypeHandlerString,
 } from "./lib/handler";
+import {IToRdfOptions} from "./lib/ITypeHandler";
 import {Translator} from "./lib/Translator";
 
 export * from "./lib/handler";
@@ -49,11 +50,22 @@ export function fromRdf(literal: RDF.Literal, validate?: boolean): any {
 /**
  * Convert the given JavaScript primitive to an RDF literal.
  * @param value A JavaScript primitive value.
- * @param dataFactory An optional data factory to create terms with.
+ * @param options Options for RDF conversion. May also be a data factory.
  * @return {Literal} An RDF literal value.
  */
-export function toRdf(value: any, dataFactory?: RDF.DataFactory): RDF.Literal {
-  return translator.toRdf(value, dataFactory || DataFactory);
+export function toRdf(value: any, options?: IToRdfOptions | RDF.DataFactory): RDF.Literal {
+  // Backwards-compatibility to accept data factory as option arg.
+  if (options && 'namedNode' in options) {
+    options = { dataFactory: options };
+  }
+
+  // Set default data factory
+  options = <IToRdfOptions> options || {};
+  if (options && !options.dataFactory) {
+    options.dataFactory = DataFactory;
+  }
+
+  return translator.toRdf(value, options);
 }
 
 /**
