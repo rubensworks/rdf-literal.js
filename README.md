@@ -108,6 +108,19 @@ fromRdf(literal('0',
   namedNode('http://www.w3.org/2001/XMLSchema#boolean')); // Returns false
 ```
 
+#### Converting an RDF date literal
+
+Date(time) literals are converted into JS Dates.
+
+```javascript
+fromRdf(literal('2012-03-17T23:00:00.000Z',
+  namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))); // Returns a Date
+fromRdf(literal('2012-03-17',
+  namedNode('http://www.w3.org/2001/XMLSchema#date'))); // Returns a Date
+fromRdf(literal('2012-03',
+  namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth'))); // Returns a Date
+```
+
 #### Converting an RDF literal with unknown datatype
 
 Unknown datatypes are considered JS strings.
@@ -152,6 +165,18 @@ toRdf(true); // Returns literal('true',
              //           namedNode('http://www.w3.org/2001/XMLSchema#boolean')
 ```
 
+#### Converting a Date
+
+JS Dates are converted to RDF date times.
+
+```javascript
+toRdf(new Date('2012-03-17')); // Returns literal('2012-03-17T00:00:00.000Z',
+                               //           namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))
+
+toRdf(new Date('2012-03-17T23:00:00.000Z')); // Returns literal('2012-03-17T23:00:00.000Z',
+                                             //           namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))
+```
+
 ## Conversion range
 
 The following table shows how RDF datatypes and JavaScript primitives are mapped:
@@ -186,6 +211,12 @@ The following table shows how RDF datatypes and JavaScript primitives are mapped
 | `number`             | `xsd:double` |
 | `number`             | `xsd:decimal` |
 | `number`             | `xsd:float` |
+| `Date`               | `xsd:dateTime` |
+| `Date`               | `xsd:date` |
+| `Date`               | `xsd:gDay` |
+| `Date`               | `xsd:gMonthDay` |
+| `Date`               | `xsd:gYear` |
+| `Date`               | `xsd:gYearMonth` |
 
 Used prefixes:
 
@@ -195,13 +226,8 @@ Used prefixes:
 The following XSD datatypes that are standardized in RDF are not supported,
 and will therefore be interpreted as plain strings:
 
-* `xsd:dateTime`
-* `xsd:date`
+* `xsd:duration`
 * `xsd:time`
-* `xsd:gDay`
-* `xsd:gMonthDay`
-* `xsd:gYear`
-* `xsd:gYearMonth`
 
 Any other unknown datatypes will also be interpreted as plain strings.
 

@@ -2,6 +2,7 @@ import * as DataFactory from "@rdfjs/data-model";
 import * as RDF from "rdf-js";
 import {
   TypeHandlerBoolean,
+  TypeHandlerDate,
   TypeHandlerNumberDouble,
   TypeHandlerNumberInteger,
   TypeHandlerString,
@@ -30,6 +31,10 @@ translator.registerHandler(
   new TypeHandlerNumberInteger(),
   TypeHandlerNumberInteger.TYPES.map(DataFactory.namedNode),
   ['number']);
+translator.registerHandler(
+  new TypeHandlerDate(),
+  TypeHandlerDate.TYPES.map(DataFactory.namedNode),
+  ['object']);
 
 /**
  * Convert the given RDF literal to an JavaScript primitive.

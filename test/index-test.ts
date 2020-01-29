@@ -76,46 +76,16 @@ describe('fromRdf', () => {
         .toEqual('0FB8');
     });
 
-    it('should handle dateTimes as strings', () => {
-      return expect(fromRdf(literal('2012-03-18T00:00:00',
-        namedNode('http://www.w3.org/2001/XMLSchema#dateTimes'))))
-        .toEqual('2012-03-18T00:00:00');
-    });
-
-    it('should handle dates as strings', () => {
-      return expect(fromRdf(literal('2012-03-18',
-        namedNode('http://www.w3.org/2001/XMLSchema#date'))))
-        .toEqual('2012-03-18');
-    });
-
     it('should handle times as strings', () => {
-      return expect(fromRdf(literal('T00:00:00',
+      return expect(fromRdf(literal('00:00:00',
         namedNode('http://www.w3.org/2001/XMLSchema#time'))))
-        .toEqual('T00:00:00');
+        .toEqual('00:00:00');
     });
 
-    it('should handle gDays as strings', () => {
-      return expect(fromRdf(literal('18',
-        namedNode('http://www.w3.org/2001/XMLSchema#gDay'))))
-        .toEqual('18');
-    });
-
-    it('should handle gMonthDays as strings', () => {
-      return expect(fromRdf(literal('03-18',
-        namedNode('http://www.w3.org/2001/XMLSchema#gMonthDays'))))
-        .toEqual('03-18');
-    });
-
-    it('should handle gYears as strings', () => {
-      return expect(fromRdf(literal('2018',
-        namedNode('http://www.w3.org/2001/XMLSchema#gYear'))))
-        .toEqual('2018');
-    });
-
-    it('should handle gYearMonths as strings', () => {
-      return expect(fromRdf(literal('2018-03',
-        namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth'))))
-        .toEqual('2018-03');
+    it('should handle durations as strings', () => {
+      return expect(fromRdf(literal('P2Y6M5DT12H35M30S',
+        namedNode('http://www.w3.org/2001/XMLSchema#duration'))))
+        .toEqual('P2Y6M5DT12H35M30S');
     });
 
   });
@@ -324,6 +294,124 @@ describe('fromRdf', () => {
 
   });
 
+  describe('for dates', () => {
+
+    it('should handle a dateTime', () => {
+      return expect(fromRdf(literal('2012-03-17T23:00:00.000Z',
+        namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))))
+        .toEqual(new Date('2012-03-17T23:00:00.000Z'));
+    });
+
+    it('should handle a dateTime when validating', () => {
+      return expect(fromRdf(literal('2012-03-17T23:00:00.000Z',
+        namedNode('http://www.w3.org/2001/XMLSchema#dateTime')), true))
+        .toEqual(new Date('2012-03-17T23:00:00.000Z'));
+    });
+
+    it('should handle a dateTime without ms when validating', () => {
+      return expect(fromRdf(literal('2012-03-17T23:00:00Z',
+        namedNode('http://www.w3.org/2001/XMLSchema#dateTime')), true))
+        .toEqual(new Date('2012-03-17T23:00:00.000Z'));
+    });
+
+    it('should error on invalid dateTime', () => {
+      return expect(() => fromRdf(literal('2012-03a-17T23:00:00.000Z',
+        namedNode('http://www.w3.org/2001/XMLSchema#dateTime')), true)).toThrow(
+          new Error('Invalid RDF http://www.w3.org/2001/XMLSchema#dateTime value: \'2012-03a-17T23:00:00.000Z\''));
+    });
+
+    it('should handle a date', () => {
+      return expect(fromRdf(literal('2012-03-17',
+        namedNode('http://www.w3.org/2001/XMLSchema#date'))))
+        .toEqual(new Date('2012-03-17'));
+    });
+
+    it('should handle a date when validating', () => {
+      return expect(fromRdf(literal('2012-03-17',
+        namedNode('http://www.w3.org/2001/XMLSchema#date')), true))
+        .toEqual(new Date('2012-03-17'));
+    });
+
+    it('should error on invalid dateTime', () => {
+      return expect(() => fromRdf(literal('2012-03a-17',
+        namedNode('http://www.w3.org/2001/XMLSchema#date')), true)).toThrow(
+        new Error('Invalid RDF http://www.w3.org/2001/XMLSchema#date value: \'2012-03a-17\''));
+    });
+
+    it('should handle a day', () => {
+      return expect(fromRdf(literal('17',
+        namedNode('http://www.w3.org/2001/XMLSchema#gDay'))))
+        .toEqual(new Date('1900-01-17'));
+    });
+
+    it('should handle a day when validating', () => {
+      return expect(fromRdf(literal('17',
+        namedNode('http://www.w3.org/2001/XMLSchema#gDay')), true))
+        .toEqual(new Date('1900-01-17'));
+    });
+
+    it('should error on invalid day', () => {
+      return expect(() => fromRdf(literal('17.',
+        namedNode('http://www.w3.org/2001/XMLSchema#gDay')), true)).toThrow(
+        new Error('Invalid RDF http://www.w3.org/2001/XMLSchema#gDay value: \'17.\''));
+    });
+
+    it('should handle a month day', () => {
+      return expect(fromRdf(literal('03-17',
+        namedNode('http://www.w3.org/2001/XMLSchema#gMonthDay'))))
+        .toEqual(new Date('1900-03-17'));
+    });
+
+    it('should handle a month day when validating', () => {
+      return expect(fromRdf(literal('03-17',
+        namedNode('http://www.w3.org/2001/XMLSchema#gMonthDay')), true))
+        .toEqual(new Date('1900-03-17'));
+    });
+
+    it('should error on invalid month day', () => {
+      return expect(() => fromRdf(literal('03-17.',
+        namedNode('http://www.w3.org/2001/XMLSchema#gMonthDay')), true)).toThrow(
+        new Error('Invalid RDF http://www.w3.org/2001/XMLSchema#gMonthDay value: \'03-17.\''));
+    });
+
+    it('should handle a year', () => {
+      return expect(fromRdf(literal('2012',
+        namedNode('http://www.w3.org/2001/XMLSchema#gYear'))))
+        .toEqual(new Date('2012-01-01'));
+    });
+
+    it('should handle a year when validating', () => {
+      return expect(fromRdf(literal('2012',
+        namedNode('http://www.w3.org/2001/XMLSchema#gYear')), true))
+        .toEqual(new Date('2012-01-01'));
+    });
+
+    it('should error on invalid year', () => {
+      return expect(() => fromRdf(literal('17.',
+        namedNode('http://www.w3.org/2001/XMLSchema#gYear')), true)).toThrow(
+        new Error('Invalid RDF http://www.w3.org/2001/XMLSchema#gYear value: \'17.\''));
+    });
+
+    it('should handle a year month', () => {
+      return expect(fromRdf(literal('2012-03',
+        namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth'))))
+        .toEqual(new Date('2012-03-01'));
+    });
+
+    it('should handle a year month when validating', () => {
+      return expect(fromRdf(literal('2012-03',
+        namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth')), true))
+        .toEqual(new Date('2012-03-01'));
+    });
+
+    it('should error on invalid year month', () => {
+      return expect(() => fromRdf(literal('2013-17.',
+        namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth')), true)).toThrow(
+        new Error('Invalid RDF http://www.w3.org/2001/XMLSchema#gYearMonth value: \'2013-17.\''));
+    });
+
+  });
+
 });
 
 describe('toRdf', () => {
@@ -414,10 +502,56 @@ describe('toRdf', () => {
 
   });
 
+  describe('for dates', () => {
+    it('should handle a date object with dateTime', () => {
+      return expect(toRdf(new Date('2012-03-17T23:00:00.000Z')))
+        .toEqual(literal('2012-03-17T23:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+
+    it('should handle a date object with date', () => {
+      return expect(toRdf(new Date('2012-03-17')))
+        .toEqual(literal('2012-03-17T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+
+    it('should handle a date object with day', () => {
+      return expect(toRdf(new Date(0, 0, 17)))
+        .toEqual(literal('1900-01-17T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+
+    it('should handle a date object with month day', () => {
+      return expect(toRdf(new Date(0, 2, 17)))
+        .toEqual(literal('1900-03-17T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+
+    it('should handle a date object with year', () => {
+      return expect(toRdf(new Date('2012-01-01')))
+        .toEqual(literal('2012-01-01T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+
+    it('should handle a date object with year month', () => {
+      return expect(toRdf(new Date('2012-03-01')))
+        .toEqual(literal('2012-03-01T00:00:00.000Z', namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+    });
+  });
+
   describe('for objects', () => {
     it('should error', () => {
       return expect(() => toRdf({}))
         .toThrow(new Error('Invalid JavaScript value: \'[object Object]\''));
+    });
+  });
+
+  describe('for undefined', () => {
+    it('should error', () => {
+      return expect(() => toRdf(undefined))
+        .toThrow(new Error('Invalid JavaScript value: \'undefined\''));
+    });
+  });
+
+  describe('for null', () => {
+    it('should error', () => {
+      return expect(() => toRdf(null))
+        .toThrow(new Error('Invalid JavaScript value: \'null\''));
     });
   });
 
@@ -455,13 +589,8 @@ describe('getSupportedRdfDatatypes', () => {
       namedNode('http://www.w3.org/2001/XMLSchema#hexBinary'),
       namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#langString'),
 
-      /*namedNode('http://www.w3.org/2001/XMLSchema#dateTime'),
-      namedNode('http://www.w3.org/2001/XMLSchema#date'),
       namedNode('http://www.w3.org/2001/XMLSchema#time'),
-      namedNode('http://www.w3.org/2001/XMLSchema#gDay'),
-      namedNode('http://www.w3.org/2001/XMLSchema#gMonthDay'),
-      namedNode('http://www.w3.org/2001/XMLSchema#gYear'),
-      namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth'),*/
+      namedNode('http://www.w3.org/2001/XMLSchema#duration'),
 
       namedNode('http://www.w3.org/2001/XMLSchema#boolean'),
 
@@ -482,6 +611,13 @@ describe('getSupportedRdfDatatypes', () => {
       namedNode('http://www.w3.org/2001/XMLSchema#unsignedInt'),
       namedNode('http://www.w3.org/2001/XMLSchema#unsignedLong'),
       namedNode('http://www.w3.org/2001/XMLSchema#unsignedShort'),
+
+      namedNode('http://www.w3.org/2001/XMLSchema#dateTime'),
+      namedNode('http://www.w3.org/2001/XMLSchema#date'),
+      namedNode('http://www.w3.org/2001/XMLSchema#gDay'),
+      namedNode('http://www.w3.org/2001/XMLSchema#gMonthDay'),
+      namedNode('http://www.w3.org/2001/XMLSchema#gYear'),
+      namedNode('http://www.w3.org/2001/XMLSchema#gYearMonth'),
     ]);
   });
 });
@@ -492,6 +628,7 @@ describe('getSupportedJavaScriptPrimitives', () => {
       'string',
       'boolean',
       'number',
+      'object',
     ]);
   });
 });

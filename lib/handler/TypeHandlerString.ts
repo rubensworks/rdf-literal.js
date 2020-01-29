@@ -19,14 +19,8 @@ export class TypeHandlerString implements ITypeHandler {
     'http://www.w3.org/2001/XMLSchema#hexBinary',
     'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
 
-    // Dates are not explicitly supported, as JS's Date object is quite crappy.
-    /*'http://www.w3.org/2001/XMLSchema#dateTime',
-    'http://www.w3.org/2001/XMLSchema#date',
     'http://www.w3.org/2001/XMLSchema#time',
-    'http://www.w3.org/2001/XMLSchema#gDay',
-    'http://www.w3.org/2001/XMLSchema#gMonthDay',
-    'http://www.w3.org/2001/XMLSchema#gYear',
-    'http://www.w3.org/2001/XMLSchema#gYearMonth',*/
+    'http://www.w3.org/2001/XMLSchema#duration',
   ];
 
   public fromRdf(literal: RDF.Literal): any {
