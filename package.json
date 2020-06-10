@@ -31,7 +31,7 @@
     "test"
   ],
   "devDependencies": {
-    "@types/jest": "^25.1.0",
+    "@types/jest": "^26.0.0",
     "@types/n3": "^1.1.5",
     "coveralls": "^3.0.0",
     "jest": "^26.0.0",
