@@ -1,4 +1,4 @@
-import * as DataFactory from "@rdfjs/data-model";
+import { DataFactory } from "rdf-data-factory";
 import * as RDF from "rdf-js";
 import {
   TypeHandlerBoolean,
@@ -14,27 +14,29 @@ export * from "./lib/handler";
 export * from "./lib/ITypeHandler";
 export * from "./lib/Translator";
 
+const DF = new DataFactory();
+
 // Construct translator with built-in handlers
 const translator = new Translator();
 translator.registerHandler(
   new TypeHandlerString(),
-  TypeHandlerString.TYPES.map(DataFactory.namedNode),
+  TypeHandlerString.TYPES.map(t => DF.namedNode(t)),
   ['string']);
 translator.registerHandler(
   new TypeHandlerBoolean(),
-  [TypeHandlerBoolean.TYPE].map(DataFactory.namedNode),
+  [TypeHandlerBoolean.TYPE].map(t => DF.namedNode(t)),
   ['boolean']);
 translator.registerHandler(
   new TypeHandlerNumberDouble(),
-  TypeHandlerNumberDouble.TYPES.map(DataFactory.namedNode),
+  TypeHandlerNumberDouble.TYPES.map(t => DF.namedNode(t)),
   ['number']);
 translator.registerHandler(
   new TypeHandlerNumberInteger(),
-  TypeHandlerNumberInteger.TYPES.map(DataFactory.namedNode),
+  TypeHandlerNumberInteger.TYPES.map(t => DF.namedNode(t)),
   ['number']);
 translator.registerHandler(
   new TypeHandlerDate(),
-  TypeHandlerDate.TYPES.map(DataFactory.namedNode),
+  TypeHandlerDate.TYPES.map(t => DF.namedNode(t)),
   ['object']);
 
 /**
@@ -62,7 +64,7 @@ export function toRdf(value: any, options?: IToRdfOptions | RDF.DataFactory): RD
   // Set default data factory
   options = <IToRdfOptions> options || {};
   if (options && !options.dataFactory) {
-    options.dataFactory = DataFactory;
+    options.dataFactory = DF;
   }
 
   return translator.toRdf(value, options);
