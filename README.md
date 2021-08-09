@@ -1,6 +1,6 @@
 # RDF Literal
 
-[![Build Status](https://travis-ci.org/rubensworks/rdf-literal.js.svg?branch=master)](https://travis-ci.org/rubensworks/rdf-literal.js)
+[![Build status](https://github.com/rubensworks/rdf-literal.js/workflows/CI/badge.svg)](https://github.com/rubensworks/rdf-literal.js/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/rdf-literal.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/rdf-literal.js?branch=master)
 [![npm version](https://badge.fury.io/js/rdf-literal.svg)](https://www.npmjs.com/package/rdf-literal)
 
