@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.3.0"></a>
+## [v1.3.0](https://github.com/rubensworks/rdf-literal.js/compare/v1.2.0...v1.3.0) - 2021-08-11
+
+### Changed
+* [Migrate to @rdfjs/types](https://github.com/rubensworks/rdf-literal.js/commit/60a9c0d5849ab91aa4b889be1004e34fbfebd70c)
+
 <a name="v1.2.0"></a>
 ## [v1.2.0](https://github.com/rubensworks/rdf-literal.js/compare/v1.1.1...v1.2.0) - 2020-08-31
 
