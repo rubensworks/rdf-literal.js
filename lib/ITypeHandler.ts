@@ -1,4 +1,4 @@
-import * as RDF from "rdf-js";
+import * as RDF from "@rdfjs/types";
 
 /**
  * A type handler translates between an RDF literal and a JavaScript primitive.
