@@ -63,8 +63,8 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "test": "jest ${1}",
-    "test-watch": "jest ${1} --watch",
+    "test": "TZ=UTC jest ${1}",
+    "test-watch": "TZ=UTC jest ${1} --watch",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "lint": "tslint index.ts lib/**/*.ts test/**/*.ts --exclude '**/*.d.ts'",
     "build": "tsc",
