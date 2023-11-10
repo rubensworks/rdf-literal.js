@@ -25,17 +25,17 @@ export class TypeHandlerNumberDouble implements ITypeHandler {
   }
 
   public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
-    datatype = datatype || dataFactory.namedNode(TypeHandlerNumberDouble.TYPES[0]);
+    datatype = datatype || dataFactory!.namedNode(TypeHandlerNumberDouble.TYPES[0]);
     if (isNaN(value)) {
-      return dataFactory.literal('NaN', datatype);
+      return dataFactory!.literal('NaN', datatype);
     }
     if (!isFinite(value)) {
-      return dataFactory.literal(value > 0 ? 'INF' : '-INF', datatype);
+      return dataFactory!.literal(value > 0 ? 'INF' : '-INF', datatype);
     }
     if (value % 1 === 0) {
-      return null;
+      return null!; // TODO: throw error in next breaking change
     }
-    return dataFactory.literal(value.toExponential(15).replace(/(\d)0*e\+?/, '$1E'), datatype);
+    return dataFactory!.literal(value.toExponential(15).replace(/(\d)0*e\+?/, '$1E'), datatype);
   }
 
 }

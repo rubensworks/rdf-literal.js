@@ -27,8 +27,8 @@ export class TypeHandlerBoolean implements ITypeHandler {
   }
 
   public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
-    return dataFactory.literal(value ? 'true' : 'false',
-      datatype || dataFactory.namedNode(TypeHandlerBoolean.TYPE));
+    return dataFactory!.literal(value ? 'true' : 'false',
+      datatype || dataFactory!.namedNode(TypeHandlerBoolean.TYPE));
   }
 
 }

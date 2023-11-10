@@ -45,11 +45,11 @@ export class TypeHandlerDate implements ITypeHandler {
   }
 
   public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
-    datatype = datatype || dataFactory.namedNode(TypeHandlerDate.TYPES[0]);
+    datatype = datatype || dataFactory!.namedNode(TypeHandlerDate.TYPES[0]);
 
     // Assume date values
     if (!(value instanceof Date)) {
-      return null;
+      return null!; // TODO: throw error in next breaking change
     }
     const date: Date = <Date> value;
 
@@ -73,7 +73,7 @@ export class TypeHandlerDate implements ITypeHandler {
     default:
       valueString = date.toISOString();
     }
-    return dataFactory.literal(valueString, datatype);
+    return dataFactory!.literal(valueString, datatype);
   }
 
 }
