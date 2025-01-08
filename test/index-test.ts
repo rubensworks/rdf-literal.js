@@ -17,6 +17,11 @@ describe('fromRdf', () => {
         .toEqual('abc');
     });
 
+    it('should handle language tagged strings with direction', () => {
+      return expect(fromRdf(DF.literal('abc', { language: 'en-us', direction: 'ltr' })))
+        .toEqual('abc');
+    });
+
     it('should handle normalized strings', () => {
       return expect(fromRdf(DF.literal('abc',
         DF.namedNode('http://www.w3.org/2001/XMLSchema#normalizedString'))))
@@ -655,6 +660,7 @@ describe('getSupportedRdfDatatypes', () => {
       DF.namedNode('http://www.w3.org/2001/XMLSchema#token'),
       DF.namedNode('http://www.w3.org/2001/XMLSchema#hexBinary'),
       DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#langString'),
+      DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#dirLangString'),
 
       DF.namedNode('http://www.w3.org/2001/XMLSchema#time'),
       DF.namedNode('http://www.w3.org/2001/XMLSchema#duration'),

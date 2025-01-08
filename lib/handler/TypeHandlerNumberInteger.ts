@@ -37,10 +37,10 @@ export class TypeHandlerNumberInteger implements ITypeHandler {
   }
 
   public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
-    return dataFactory.literal(String(value), datatype
+    return dataFactory!.literal(String(value), datatype
       || (value <= TypeHandlerNumberInteger.MAX_INT && value >= TypeHandlerNumberInteger.MIN_INT
-        ? dataFactory.namedNode(TypeHandlerNumberInteger.TYPES[0])
-        : dataFactory.namedNode(TypeHandlerNumberInteger.TYPES[1])));
+        ? dataFactory!.namedNode(TypeHandlerNumberInteger.TYPES[0])
+        : dataFactory!.namedNode(TypeHandlerNumberInteger.TYPES[1])));
   }
 
 }

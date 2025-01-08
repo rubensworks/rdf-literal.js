@@ -18,6 +18,7 @@ export class TypeHandlerString implements ITypeHandler {
     'http://www.w3.org/2001/XMLSchema#token',
     'http://www.w3.org/2001/XMLSchema#hexBinary',
     'http://www.w3.org/1999/02/22-rdf-syntax-ns#langString',
+    'http://www.w3.org/1999/02/22-rdf-syntax-ns#dirLangString',
 
     'http://www.w3.org/2001/XMLSchema#time',
     'http://www.w3.org/2001/XMLSchema#duration',
@@ -28,7 +29,7 @@ export class TypeHandlerString implements ITypeHandler {
   }
 
   public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
-    return dataFactory.literal(value, datatype);
+    return dataFactory!.literal(value, datatype);
   }
 
 }
