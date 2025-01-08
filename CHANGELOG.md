@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.0.0"></a>
+## [v2.0.0](https://github.com/rubensworks/rdf-literal.js/compare/v1.3.2...v2.0.0) - 2025-01-08
+
+### BREAKING CHANGES
+* [Update to rdf-data-factory v2](https://github.com/rubensworks/rdf-literal.js/commit/de5312480dc737b013fdf06302cfc605c71065d9)
+    This includes a bump to @rdfjs/types@2.0.0, which requires TypeScript 5 and Node 14+
+
+### Added
+* [Add support for base directions in literals](https://github.com/rubensworks/rdf-literal.js/commit/19e140b64b354fb7ea28da3788705d718dccf7a4)
+
 <a name="v1.3.2"></a>
 ## [v1.3.2](https://github.com/rubensworks/rdf-literal.js/compare/v1.3.1...v1.3.2) - 2024-02-07
 
