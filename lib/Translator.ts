@@ -1,26 +1,25 @@
-import * as RDF from "@rdfjs/types";
-import {IToRdfOptions, ITypeHandler} from "./ITypeHandler";
+import type * as RDF from '@rdfjs/types';
+import type { IToRdfOptions, ITypeHandler } from './ITypeHandler';
 
 /**
  * Translates between an RDF literal and a JavaScript primitive.
  */
 export class Translator implements ITypeHandler {
-
   private readonly supportedRdfDatatypes: RDF.NamedNode[];
-  private readonly fromRdfHandlers: {[rdfDatatype: string]: ITypeHandler};
-  private readonly toRdfHandlers: {[javaScriptType: string]: ITypeHandler[]};
+  private readonly fromRdfHandlers: Record<string, ITypeHandler>;
+  private readonly toRdfHandlers: Record<string, ITypeHandler[]>;
 
-  constructor() {
+  public constructor() {
     this.supportedRdfDatatypes = [];
     this.fromRdfHandlers = {};
     this.toRdfHandlers = {};
   }
 
-  public static incorrectRdfDataType(literal: RDF.Literal) {
+  public static incorrectRdfDataType(literal: RDF.Literal): never {
     throw new Error(`Invalid RDF ${literal.datatype.value} value: '${literal.value}'`);
   }
 
-  public registerHandler(handler: ITypeHandler, rdfDatatypes: RDF.NamedNode[], javaScriptDataTypes: string[]) {
+  public registerHandler(handler: ITypeHandler, rdfDatatypes: RDF.NamedNode[], javaScriptDataTypes: string[]): void {
     for (const rdfDatatype of rdfDatatypes) {
       this.supportedRdfDatatypes.push(rdfDatatype);
       this.fromRdfHandlers[rdfDatatype.value] = handler;
@@ -38,9 +37,8 @@ export class Translator implements ITypeHandler {
     const handler = this.fromRdfHandlers[literal.datatype.value];
     if (handler) {
       return handler.fromRdf(literal, validate);
-    } else {
-      return literal.value;
     }
+    return literal.value;
   }
 
   public toRdf(value: any, options?: IToRdfOptions): RDF.Literal {
@@ -69,5 +67,4 @@ export class Translator implements ITypeHandler {
   public getSupportedJavaScriptPrimitives(): string[] {
     return Object.keys(this.toRdfHandlers);
   }
-
 }

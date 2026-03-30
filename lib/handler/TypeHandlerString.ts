@@ -1,11 +1,10 @@
-import * as RDF from "@rdfjs/types";
-import {IToRdfOptions, ITypeHandler} from "../ITypeHandler";
+import type * as RDF from '@rdfjs/types';
+import type { IToRdfOptions, ITypeHandler } from '../ITypeHandler';
 
 /**
  * Translates strings.
  */
 export class TypeHandlerString implements ITypeHandler {
-
   public static readonly TYPES: string[] = [
     'http://www.w3.org/2001/XMLSchema#string',
     'http://www.w3.org/2001/XMLSchema#normalizedString',
@@ -28,8 +27,7 @@ export class TypeHandlerString implements ITypeHandler {
     return literal.value;
   }
 
-  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
-    return dataFactory!.literal(value, datatype);
+  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions = {}): RDF.Literal {
+    return dataFactory!.literal(<string> value, datatype);
   }
-
 }

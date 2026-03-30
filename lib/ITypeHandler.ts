@@ -1,4 +1,4 @@
-import * as RDF from "@rdfjs/types";
+import type * as RDF from '@rdfjs/types';
 
 /**
  * A type handler translates between an RDF literal and a JavaScript primitive.
@@ -17,7 +17,7 @@ export interface ITypeHandler {
    * @param {boolean} validate If the literal value should be validated against the datatype.
    * @return {any} A JavaScript primitive value.
    */
-  fromRdf(literal: RDF.Literal, validate?: boolean): any;
+  fromRdf: (literal: RDF.Literal, validate?: boolean) => any;
 
   /**
    * Convert the given JavaScript primitive to an RDF literal.
@@ -25,7 +25,7 @@ export interface ITypeHandler {
    * @param options Options for RDF conversion.
    * @return {Literal} An RDF literal value.
    */
-  toRdf(value: any, options?: IToRdfOptions): RDF.Literal;
+  toRdf: (value: any, options?: IToRdfOptions) => RDF.Literal;
 
 }
 

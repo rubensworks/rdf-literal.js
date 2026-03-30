@@ -1,18 +1,18 @@
-import { DataFactory } from "rdf-data-factory";
-import * as RDF from "@rdfjs/types";
+import type * as RDF from '@rdfjs/types';
+import { DataFactory } from 'rdf-data-factory';
 import {
   TypeHandlerBoolean,
   TypeHandlerDate,
   TypeHandlerNumberDouble,
   TypeHandlerNumberInteger,
   TypeHandlerString,
-} from "./lib/handler";
-import {IToRdfOptions} from "./lib/ITypeHandler";
-import {Translator} from "./lib/Translator";
+} from './lib/handler';
+import type { IToRdfOptions } from './lib/ITypeHandler';
+import { Translator } from './lib/Translator';
 
-export * from "./lib/handler";
-export * from "./lib/ITypeHandler";
-export * from "./lib/Translator";
+export * from './lib/handler';
+export * from './lib/ITypeHandler';
+export * from './lib/Translator';
 
 const DF = new DataFactory();
 
@@ -21,23 +21,28 @@ const translator = new Translator();
 translator.registerHandler(
   new TypeHandlerString(),
   TypeHandlerString.TYPES.map(t => DF.namedNode(t)),
-  ['string']);
+  [ 'string' ],
+);
 translator.registerHandler(
   new TypeHandlerBoolean(),
-  [TypeHandlerBoolean.TYPE].map(t => DF.namedNode(t)),
-  ['boolean']);
+  [ TypeHandlerBoolean.TYPE ].map(t => DF.namedNode(t)),
+  [ 'boolean' ],
+);
 translator.registerHandler(
   new TypeHandlerNumberDouble(),
   TypeHandlerNumberDouble.TYPES.map(t => DF.namedNode(t)),
-  ['number']);
+  [ 'number' ],
+);
 translator.registerHandler(
   new TypeHandlerNumberInteger(),
   TypeHandlerNumberInteger.TYPES.map(t => DF.namedNode(t)),
-  ['number']);
+  [ 'number' ],
+);
 translator.registerHandler(
   new TypeHandlerDate(),
   TypeHandlerDate.TYPES.map(t => DF.namedNode(t)),
-  ['object']);
+  [ 'object' ],
+);
 
 /**
  * Convert the given RDF literal to an JavaScript primitive.
