@@ -1,5 +1,16 @@
 import { DataFactory } from 'rdf-data-factory';
-import { fromRdf, getSupportedJavaScriptPrimitives, getSupportedRdfDatatypes, getTermRaw, toRdf } from '../index';
+import {
+  fromRdf,
+  getSupportedJavaScriptPrimitives,
+  getSupportedRdfDatatypes,
+  getTermRaw,
+  toRdf,
+  TypeHandlerBoolean,
+  TypeHandlerDate,
+  TypeHandlerNumberDouble,
+  TypeHandlerNumberInteger,
+  TypeHandlerString,
+} from '../index';
 
 const DF = new DataFactory();
 
@@ -623,5 +634,45 @@ describe('getSupportedJavaScriptPrimitives', () => {
       'number',
       'object',
     ]);
+  });
+});
+
+describe('TypeHandlerBoolean', () => {
+  describe('toRdf', () => {
+    it('should throw when called without options', () => {
+      expect(() => new TypeHandlerBoolean().toRdf(true)).toThrow(/literal/u);
+    });
+  });
+});
+
+describe('TypeHandlerDate', () => {
+  describe('toRdf', () => {
+    it('should throw when called without options', () => {
+      expect(() => new TypeHandlerDate().toRdf(new Date())).toThrow(/namedNode/u);
+    });
+  });
+});
+
+describe('TypeHandlerNumberDouble', () => {
+  describe('toRdf', () => {
+    it('should throw when called without options', () => {
+      expect(() => new TypeHandlerNumberDouble().toRdf(10.5)).toThrow(/namedNode/u);
+    });
+  });
+});
+
+describe('TypeHandlerNumberInteger', () => {
+  describe('toRdf', () => {
+    it('should throw when called without options', () => {
+      expect(() => new TypeHandlerNumberInteger().toRdf(10)).toThrow(/literal/u);
+    });
+  });
+});
+
+describe('TypeHandlerString', () => {
+  describe('toRdf', () => {
+    it('should throw when called without options', () => {
+      expect(() => new TypeHandlerString().toRdf('abc')).toThrow(/literal/u);
+    });
   });
 });
