@@ -1,12 +1,11 @@
-import * as RDF from "@rdfjs/types";
-import {IToRdfOptions, ITypeHandler} from "../ITypeHandler";
-import {Translator} from "../Translator";
+import type * as RDF from '@rdfjs/types';
+import type { IToRdfOptions, ITypeHandler } from '../ITypeHandler';
+import { Translator } from '../Translator';
 
 /**
  * Translates double numbers.
  */
 export class TypeHandlerNumberDouble implements ITypeHandler {
-
   public static readonly TYPES: string[] = [
     'http://www.w3.org/2001/XMLSchema#double',
     'http://www.w3.org/2001/XMLSchema#decimal',
@@ -14,28 +13,26 @@ export class TypeHandlerNumberDouble implements ITypeHandler {
   ];
 
   public fromRdf(literal: RDF.Literal, validate?: boolean): any {
-    const parsed = parseFloat(literal.value);
-    if (validate) {
-      if (isNaN(parsed)) {
-        Translator.incorrectRdfDataType(literal);
-      }
-      // TODO: validate more
+    const parsed = Number.parseFloat(literal.value);
+    if (validate && Number.isNaN(parsed)) {
+      Translator.incorrectRdfDataType(literal);
     }
+    // TODO: validate more
     return parsed;
   }
 
-  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions): RDF.Literal {
-    datatype = datatype || dataFactory!.namedNode(TypeHandlerNumberDouble.TYPES[0]);
-    if (isNaN(value)) {
+  public toRdf(value: any, { datatype, dataFactory }: IToRdfOptions = {}): RDF.Literal {
+    datatype = datatype ?? dataFactory!.namedNode(TypeHandlerNumberDouble.TYPES[0]);
+    if (Number.isNaN(<number> value)) {
       return dataFactory!.literal('NaN', datatype);
     }
-    if (!isFinite(value)) {
+    if (!Number.isFinite(<number> value)) {
       return dataFactory!.literal(value > 0 ? 'INF' : '-INF', datatype);
     }
     if (value % 1 === 0) {
-      return null!; // TODO: throw error in next breaking change
+      // TODO: throw error in next breaking change
+      return null!;
     }
-    return dataFactory!.literal(value.toExponential(15).replace(/(\d)0*e\+?/, '$1E'), datatype);
+    return dataFactory!.literal((<number> value).toExponential(15).replace(/(\d)0*e\+?/u, '$1E'), datatype);
   }
-
 }
