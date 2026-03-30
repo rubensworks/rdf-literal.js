@@ -640,7 +640,7 @@ describe('getSupportedJavaScriptPrimitives', () => {
 describe('TypeHandlerBoolean', () => {
   describe('toRdf', () => {
     it('should throw when called without options', () => {
-      expect(() => new TypeHandlerBoolean().toRdf(true)).toThrow();
+      expect(() => new TypeHandlerBoolean().toRdf(true)).toThrow(/undefined/u);
     });
   });
 });
@@ -648,7 +648,7 @@ describe('TypeHandlerBoolean', () => {
 describe('TypeHandlerDate', () => {
   describe('toRdf', () => {
     it('should throw when called without options', () => {
-      expect(() => new TypeHandlerDate().toRdf(new Date())).toThrow();
+      expect(() => new TypeHandlerDate().toRdf(new Date())).toThrow(/undefined/u);
     });
   });
 });
@@ -656,7 +656,7 @@ describe('TypeHandlerDate', () => {
 describe('TypeHandlerNumberDouble', () => {
   describe('toRdf', () => {
     it('should throw when called without options', () => {
-      expect(() => new TypeHandlerNumberDouble().toRdf(10.5)).toThrow();
+      expect(() => new TypeHandlerNumberDouble().toRdf(10.5)).toThrow(/undefined/u);
     });
   });
 });
@@ -664,7 +664,7 @@ describe('TypeHandlerNumberDouble', () => {
 describe('TypeHandlerNumberInteger', () => {
   describe('toRdf', () => {
     it('should throw when called without options', () => {
-      expect(() => new TypeHandlerNumberInteger().toRdf(10)).toThrow();
+      expect(() => new TypeHandlerNumberInteger().toRdf(10)).toThrow(/undefined/u);
     });
   });
 });
@@ -672,7 +672,7 @@ describe('TypeHandlerNumberInteger', () => {
 describe('TypeHandlerString', () => {
   describe('toRdf', () => {
     it('should throw when called without options', () => {
-      expect(() => new TypeHandlerString().toRdf('abc')).toThrow();
+      expect(() => new TypeHandlerString().toRdf('abc')).toThrow(/undefined/u);
     });
   });
 });
