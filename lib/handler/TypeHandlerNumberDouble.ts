@@ -2,17 +2,30 @@ import type * as RDF from '@rdfjs/types';
 import type { IToRdfOptions, ITypeHandler } from '../ITypeHandler';
 import { Translator } from '../Translator';
 
+const TYPE_DOUBLE = 'http://www.w3.org/2001/XMLSchema#double';
+const TYPE_DECIMAL = 'http://www.w3.org/2001/XMLSchema#decimal';
+const TYPE_FLOAT = 'http://www.w3.org/2001/XMLSchema#float';
+
 /**
  * Translates double numbers.
  */
 export class TypeHandlerNumberDouble implements ITypeHandler {
   public static readonly TYPES: string[] = [
-    'http://www.w3.org/2001/XMLSchema#double',
-    'http://www.w3.org/2001/XMLSchema#decimal',
-    'http://www.w3.org/2001/XMLSchema#float',
+    TYPE_DOUBLE,
+    TYPE_DECIMAL,
+    TYPE_FLOAT,
   ];
 
   public fromRdf(literal: RDF.Literal, validate?: boolean): any {
+    const datatype = literal.datatype.value;
+    if (datatype === TYPE_DOUBLE || datatype === TYPE_FLOAT) {
+      switch (literal.value) {
+        case 'INF':
+          return Number.POSITIVE_INFINITY;
+        case '-INF':
+          return Number.NEGATIVE_INFINITY;
+      }
+    }
     const parsed = Number.parseFloat(literal.value);
     if (validate && Number.isNaN(parsed)) {
       Translator.incorrectRdfDataType(literal);
