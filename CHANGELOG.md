@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.1.0"></a>
+## [v2.1.0](https://github.com/rubensworks/rdf-literal.js/compare/v2.0.0...v2.1.0) - 2026-11-24
+
+### Added
+* [Parse INF for RDF doubles and floats (#35)](https://github.com/rubensworks/rdf-literal.js/commit/1da23dd652d3d576677dbfd3bd0a427afed11872)
+
 <a name="v2.0.0"></a>
 ## [v2.0.0](https://github.com/rubensworks/rdf-literal.js/compare/v1.3.2...v2.0.0) - 2025-01-08
 
