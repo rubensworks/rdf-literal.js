@@ -247,6 +247,50 @@ describe('fromRdf', () => {
         .toBe(10.5);
     });
 
+    it('should convert xsd:double INF to Infinity', () => {
+      const literal = DF.literal('INF', DF.namedNode('http://www.w3.org/2001/XMLSchema#double'));
+      expect(fromRdf(literal)).toBe(Number.POSITIVE_INFINITY);
+      expect(fromRdf(literal, true)).toBe(Number.POSITIVE_INFINITY);
+    });
+
+    it('should convert xsd:double -INF to -Infinity', () => {
+      const literal = DF.literal('-INF', DF.namedNode('http://www.w3.org/2001/XMLSchema#double'));
+      expect(fromRdf(literal)).toBe(Number.NEGATIVE_INFINITY);
+      expect(fromRdf(literal, true)).toBe(Number.NEGATIVE_INFINITY);
+    });
+
+    it('should convert xsd:double NaN to NaN', () => {
+      const literal = DF.literal('NaN', DF.namedNode('http://www.w3.org/2001/XMLSchema#double'));
+      expect(fromRdf(literal)).toBeNaN();
+    });
+
+    it('should convert xsd:float INF to Infinity', () => {
+      const literal = DF.literal('INF', DF.namedNode('http://www.w3.org/2001/XMLSchema#float'));
+      expect(fromRdf(literal)).toBe(Number.POSITIVE_INFINITY);
+      expect(fromRdf(literal, true)).toBe(Number.POSITIVE_INFINITY);
+    });
+
+    it('should convert xsd:float -INF to -Infinity', () => {
+      const literal = DF.literal('-INF', DF.namedNode('http://www.w3.org/2001/XMLSchema#float'));
+      expect(fromRdf(literal)).toBe(Number.NEGATIVE_INFINITY);
+      expect(fromRdf(literal, true)).toBe(Number.NEGATIVE_INFINITY);
+    });
+
+    it('should convert xsd:float NaN to NaN', () => {
+      const literal = DF.literal('NaN', DF.namedNode('http://www.w3.org/2001/XMLSchema#float'));
+      expect(fromRdf(literal)).toBeNaN();
+    });
+
+    it('should reject INF as a decimal when validating', () => {
+      const literal = DF.literal('INF', DF.namedNode('http://www.w3.org/2001/XMLSchema#decimal'));
+      expect(() => fromRdf(literal, true)).toThrow(`Invalid RDF ${literal.datatype.value} value: 'INF'`);
+    });
+
+    it('should reject -INF as a decimal when validating', () => {
+      const literal = DF.literal('-INF', DF.namedNode('http://www.w3.org/2001/XMLSchema#decimal'));
+      expect(() => fromRdf(literal, true)).toThrow(`Invalid RDF ${literal.datatype.value} value: '-INF'`);
+    });
+
     it('should error on invalid doubles when validating', () => {
       expect(() => fromRdf(DF.literal('invalid', DF.namedNode('http://www.w3.org/2001/XMLSchema#double')), true))
         .toThrow(new Error('Invalid RDF http://www.w3.org/2001/XMLSchema#double value: \'invalid\''));
